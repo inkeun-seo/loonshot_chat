@@ -1,0 +1,5 @@
+/.env
+/.venv
+/__pycache__
+/conversation_log.txt
+/logs
