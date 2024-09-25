@@ -55,6 +55,16 @@ class ContextChatbot:
     def main(self):
         max_tokens = st.sidebar.slider("메모리 크기 (토큰)", 100, 2000, 1000)
         background_knowledge = st.sidebar.text_area("배경지식 및 지시사항 입력")
+        
+        # 배경지식이 입력되지 않았을 경우 기본 파일에서 읽어오기
+        if not background_knowledge:
+            try:
+                with open("data/knowledge.txt", "r", encoding="utf-8") as file:
+                    background_knowledge = file.read()
+            except FileNotFoundError:
+                st.error("기본 배경지식 파일을 찾을 수 없습니다.")
+                background_knowledge = ""
+        
         chain = self.setup_chain(self.llm, background_knowledge, max_tokens)
 
         user_query = st.chat_input(placeholder="무엇이든 물어보세요!")
